@@ -1,0 +1,3 @@
+import { Client, VectorsDB, Embeddings, Storage } from "node-appwrite";
+export function services(){const endpoint=process.env.APPWRITE_ENDPOINT,project=process.env.APPWRITE_PROJECT_ID,key=process.env.APPWRITE_API_KEY;if(!endpoint||!project||!key)throw new Error("Missing Appwrite server environment variables. Copy .env.example to .env.local.");const client=new Client().setEndpoint(endpoint).setProject(project).setKey(key);return{vectors:new VectorsDB(client),embeddings:new Embeddings(client),storage:new Storage(client)}}
+export function ids(){return{databaseId:process.env.APPWRITE_VECTOR_DATABASE_ID||"founder-memory",collectionId:process.env.APPWRITE_VECTOR_COLLECTION_ID||"knowledge",bucketId:process.env.APPWRITE_STORAGE_BUCKET_ID||"founder-memory-files"}}

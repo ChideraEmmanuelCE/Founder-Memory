@@ -1,0 +1,7 @@
+import * as sdk from "node-appwrite";
+const required=["APPWRITE_ENDPOINT","APPWRITE_PROJECT_ID","APPWRITE_API_KEY"];for(const k of required)if(!process.env[k])throw new Error(`Missing ${k}`);
+const client=new sdk.Client().setEndpoint(process.env.APPWRITE_ENDPOINT).setProject(process.env.APPWRITE_PROJECT_ID).setKey(process.env.APPWRITE_API_KEY);const vectors=new sdk.VectorsDB(client),storage=new sdk.Storage(client);const databaseId=process.env.APPWRITE_VECTOR_DATABASE_ID||"founder-memory",collectionId=process.env.APPWRITE_VECTOR_COLLECTION_ID||"knowledge",bucketId=process.env.APPWRITE_STORAGE_BUCKET_ID||"founder-memory-files";
+try{await vectors.create({databaseId,name:"Founder Memory"});console.log("Created VectorsDB database") }catch(e){if(e.code!==409)throw e;console.log("Database already exists")}
+try{await vectors.createCollection({databaseId,collectionId,name:"Knowledge",dimension:768});console.log("Created vector collection") }catch(e){if(e.code!==409)throw e;console.log("Collection already exists")}
+try{await storage.createBucket({bucketId,name:"Founder Memory Files",maximumFileSize:10485760,allowedFileExtensions:["pdf","txt","md"],encryption:true,antivirus:true});console.log("Created storage bucket") }catch(e){if(e.code!==409)throw e;console.log("Bucket already exists")}
+console.log("Appwrite setup is ready.");

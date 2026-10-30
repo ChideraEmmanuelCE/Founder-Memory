@@ -1,0 +1,2 @@
+import pdf from "pdf-parse";
+export async function extract(file:File){const buffer=Buffer.from(await file.arrayBuffer());const ext=file.name.split(".").pop()?.toLowerCase();if(ext==="pdf"){const result=await pdf(buffer);return result.text}if(ext==="txt"||ext==="md")return buffer.toString("utf8");throw new Error("Only PDF, Markdown, and text files are supported.")}
